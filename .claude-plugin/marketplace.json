@@ -1,0 +1,14 @@
+{
+  "name": "ctxwatch-local",
+  "description": "Local marketplace for the ctxwatch context-size warning plugin.",
+  "owner": {
+    "name": "Andrew Burkett"
+  },
+  "plugins": [
+    {
+      "name": "ctxwatch",
+      "source": "./plugins/ctxwatch",
+      "description": "Warns when the session's context window grows past a threshold (default 100k tokens)."
+    }
+  ]
+}
