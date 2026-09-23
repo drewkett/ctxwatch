@@ -28,3 +28,7 @@ A Claude Code plugin that warns you when the session's context window grows past
 | `CTXWATCH_STEP` | `25000` | Re-warn every N tokens above the threshold |
 
 Set them in your shell or under `env` in Claude Code settings. Requires `python3`.
+
+## License
+
+MIT
