@@ -1,6 +1,5 @@
 {
   "name": "ctxwatch",
-  "version": "0.2.0",
   "description": "Tells Claude (and you) when the session's context window grows past a threshold (default 100k tokens).",
   "author": {
     "name": "Andrew Burkett"
