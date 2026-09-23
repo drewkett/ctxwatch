@@ -1,9 +1,9 @@
 # ctxwatch
 
-A Claude Code plugin that warns you when the session's context window grows past a threshold (default **100k tokens**).
+A Claude Code plugin that tells Claude when the session's context window grows past a threshold (default **100k tokens**), so it can work leaner and suggest `/compact` or `/clear` at a natural stopping point. You also see a one-line notice:
 
 ```
-⚠️ ctxwatch: context is ~112k tokens (threshold 100k). Consider /compact or /clear.
+⚠️ ctxwatch: context is ~112k tokens (threshold 100k).
 ```
 
 ## Install
@@ -18,7 +18,8 @@ A Claude Code plugin that warns you when the session's context window grows past
 - Runs on `UserPromptSubmit` and `PostToolUse`, so it catches growth mid-turn too.
 - Reads the latest main-thread assistant message's `usage` from the transcript (input + cache read + cache creation + output). Subagent messages are ignored.
 - Warns once on crossing the threshold, then again every step (125k, 150k, …). Resets when context drops back below the threshold (e.g. after `/compact`).
-- The warning is shown to you only; it isn't added to Claude's context. Failures exit silently.
+- The warning goes to Claude via `additionalContext` (about 60 tokens per warning), telling it to keep context lean and suggest `/compact` or `/clear` at the next stopping point, not mid-task. It's also shown to you via `systemMessage`.
+- Failures exit silently.
 
 ## Configuration
 

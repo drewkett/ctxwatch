@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Warn when the main session's context window exceeds a threshold.
+"""Warn Claude (and the user) when the main session's context exceeds a threshold.
 
 Reads the hook payload from stdin, finds the most recent main-thread assistant
 message in the transcript, and sums its input-side token usage. Warns once when
 the threshold is crossed, then again every CTXWATCH_STEP tokens beyond it.
 State resets when context drops back below the threshold (e.g. after /compact).
+
+The warning is injected into Claude's context via additionalContext so it can
+adapt (work leaner, suggest /compact), and shown to the user via systemMessage.
 
 Env:
   CTXWATCH_THRESHOLD  tokens at which to start warning (default 100000)
@@ -81,11 +84,22 @@ def main():
     with open(state_file, "w") as f:
         f.write(str(band))
 
-    msg = (
-        f"⚠️ ctxwatch: context is ~{tokens // 1000}k tokens "
-        f"(threshold {THRESHOLD // 1000}k). Consider /compact or /clear."
+    k, limit = tokens // 1000, THRESHOLD // 1000
+    note_for_claude = (
+        f"ctxwatch: the context window is ~{k}k tokens, above the user's "
+        f"preferred limit of {limit}k. Keep context lean from here: read "
+        "targeted file ranges instead of whole files, delegate broad searches "
+        "to subagents, and keep tool output small. At the next natural "
+        "stopping point (not mid-task), tell the user the context size and "
+        "suggest /compact or /clear."
     )
-    print(json.dumps({"systemMessage": msg}))
+    print(json.dumps({
+        "systemMessage": f"⚠️ ctxwatch: context is ~{k}k tokens (threshold {limit}k).",
+        "hookSpecificOutput": {
+            "hookEventName": payload.get("hook_event_name", "PostToolUse"),
+            "additionalContext": note_for_claude,
+        },
+    }))
 
 
 if __name__ == "__main__":

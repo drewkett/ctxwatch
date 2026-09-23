@@ -8,7 +8,7 @@
     {
       "name": "ctxwatch",
       "source": "./plugins/ctxwatch",
-      "description": "Warns when the session's context window grows past a threshold (default 100k tokens)."
+      "description": "Tells Claude (and you) when the session's context window grows past a threshold (default 100k tokens)."
     }
   ]
 }
