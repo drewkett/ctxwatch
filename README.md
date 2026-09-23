@@ -10,7 +10,7 @@ A Claude Code plugin that tells Claude when the session's context window grows p
 
 ```
 /plugin marketplace add drewkett/ctxwatch
-/plugin install ctxwatch@ctxwatch-local
+/plugin install ctxwatch@ctxwatch
 ```
 
 ## How it works

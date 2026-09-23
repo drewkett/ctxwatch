@@ -1,6 +1,6 @@
 {
-  "name": "ctxwatch-local",
-  "description": "Local marketplace for the ctxwatch context-size warning plugin.",
+  "name": "ctxwatch",
+  "description": "Marketplace for the ctxwatch context-size warning plugin.",
   "owner": {
     "name": "Andrew Burkett"
   },
